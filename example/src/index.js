@@ -1,7 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
-import './index.css'
-import App from './App'
+import './css/index.css';
 
-ReactDOM.render(<App />, document.getElementById('root'))
+import CheckboxSelectable from 'CheckboxSelectable';
+import CheckboxSelectableV2 from 'CheckboxSelectableV2';
+
+const renderer = () => {
+  ReactDOM.render(<App />, document.getElementById('root'));
+};
+
+if (module.hot) module.hot.accept(Component => renderer());
+renderer();
+
+export { CheckboxSelectable, CheckboxSelectableV2 };

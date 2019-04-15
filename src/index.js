@@ -1,22 +1,17 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import ReactDOM from "react-dom";
+// import App from "./App";
 
-import styles from './styles.css'
+import "./css/index.css";
 
-export default class ExampleComponent extends Component {
-  static propTypes = {
-    text: PropTypes.string
-  }
+import CheckboxSelectable from "./CheckboxSelectable";
+import CheckboxSelectableV2 from "./CheckboxSelectableV2";
 
-  render() {
-    const {
-      text
-    } = this.props
+// const renderer = () => {
+//   ReactDOM.render(<App />, document.getElementById('root'));
+// };
 
-    return (
-      <div className={styles.test}>
-        Example Component: {text}
-      </div>
-    )
-  }
-}
+// if (module.hot) module.hot.accept(Component => renderer());
+// renderer();
+
+export { CheckboxSelectable, CheckboxSelectableV2 };
