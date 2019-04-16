@@ -15,7 +15,7 @@ import Truncate from 'react-truncate';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 // TEST
-import { SourceList, DestinationList } from '../Components';
+import { HeaderPanel, SourceList, DestinationList } from '../Components';
 
 export default class CheckboxSelectableV2 extends Component {
   _isMounted = true;
@@ -26,6 +26,7 @@ export default class CheckboxSelectableV2 extends Component {
     height: PropTypes.number, // default to 300
     groupName: PropTypes.string, //is required when two or more multi select are applied
     onChange: PropTypes.func.isRequired,
+    customButton: PropTypes.node,
   };
 
   state = {
@@ -257,7 +258,7 @@ export default class CheckboxSelectableV2 extends Component {
   };
 
   render() {
-    const { height = 300, groupName, truncateText } = this.props;
+    const { height = 300, groupName, truncateText, customButton } = this.props;
     const {
       originalItems,
       selectedItems,
@@ -274,9 +275,14 @@ export default class CheckboxSelectableV2 extends Component {
           onSelectAllClicked={this.onSelectAllClicked}
           onSearchInputChange={this.onSearchInputChange}
           onSearchButtonClicked={this.onSearchButtonClicked}
+          customButton={customButton}
         />
         {/* Body */}
-        <Row xs="12" className="m-0">
+        <Row
+          xs="12"
+          className="m-0"
+          style={{ flex: 'unset', flexWrap: 'unset' }}
+        >
           <DragDropContext onDragEnd={this.onDragEnd}>
             <ListWrapper height={height}>
               <SourceList
@@ -303,49 +309,6 @@ export default class CheckboxSelectableV2 extends Component {
     );
   }
 }
-
-const HeaderPanel = ({
-  onClearClicked,
-  onSelectAllClicked,
-  onSearchInputChange,
-  onSearchButtonClicked,
-  selectedCount,
-  searchValue,
-}) => (
-  <Row xs="12" className="m-0">
-    <Col className="border pt-4 pb-4 m-0">
-      <InputGroup>
-        <Input
-          type="text"
-          placeholder="Search"
-          className="border-0 mr-1"
-          style={{ zIndex: 0 }}
-          value={searchValue}
-          onChange={onSearchInputChange}
-        />
-        <Button
-          className="primary-btn-style mr-1 d-flex"
-          onClick={onSearchButtonClicked}
-        >
-          <i className="material-icons align-text-bottom">search</i>
-        </Button>
-        <Button className="primary-btn-style" onClick={onSelectAllClicked}>
-          Select All
-        </Button>
-      </InputGroup>
-    </Col>
-    <Col xs="6" className="border pt-4 pb-4 m-0">
-      <InputGroup className="d-flex align-items-center">
-        <Col className="text-left">{selectedCount} selected</Col>
-        <Col className="text-right">
-          <Button className="primary-btn-style" onClick={onClearClicked}>
-            Clear
-          </Button>
-        </Col>
-      </InputGroup>
-    </Col>
-  </Row>
-);
 
 export class TooltipComponent extends Component {
   static defaultProps = {
@@ -400,122 +363,3 @@ const ListWrapper = ({ height, children }) => (
     {children}
   </Col>
 );
-
-// const SourceList = ({
-//   items,
-//   onChange,
-//   height,
-//   truncateText,
-//   groupName = 'group',
-// }) => {
-//   const RowRenderer = ({ item, index }) => {
-//     const { id, label, checked } = item;
-//     // TOOLTIP COMPONENT USES UNIQUE IDENTIFIER TO DETERMINE WHAT TOOLTIP TO SHOW
-//     const identifier = groupName + index;
-//     return (
-//       <Draggable draggableId={identifier} index={index} key={id}>
-//         {provided => {
-//           const { innerRef, dragHandleProps, draggableProps } = provided;
-//           return (
-//             <div ref={innerRef} {...dragHandleProps} {...draggableProps}>
-//               <FormGroup className="pt-1 d-flex" check>
-//                 <CustomInput
-//                   type="checkbox"
-//                   id={id}
-//                   checked={checked}
-//                   onChange={e => onChange(e, id)}
-//                 />
-//                 <TooltipComponent id={identifier} label={label}>
-//                   <div id={identifier}>
-//                     {truncateText ? (
-//                       <Truncate lines={1} children={id} ellipsis="…" />
-//                     ) : (
-//                       <p>{label}</p>
-//                     )}
-//                   </div>
-//                 </TooltipComponent>
-//               </FormGroup>
-//             </div>
-//           );
-//         }}
-//       </Draggable>
-//     );
-//   };
-
-//   return (
-//     <ListWrapper height={height}>
-//       <Droppable droppableId="originalItems">
-//         {provided => {
-//           const { innerRef } = provided;
-//           return (
-//             <div ref={innerRef} style={{ height, overflow: 'auto' }}>
-//               <div style={{ height, overflow: 'auto' }}>
-//                 {items.map((item, index) => {
-//                   return <RowRenderer key={index} item={item} index={index} />;
-//                 })}
-//               </div>
-//               {provided.placeholder}
-//             </div>
-//           );
-//         }}
-//       </Droppable>
-//     </ListWrapper>
-//   );
-// };
-
-// const DestinationList = ({
-//   items,
-//   removeItemsHandler,
-//   height = 300,
-//   truncateText,
-// }) => {
-//   const RowRenderer = ({ index }) => {
-//     const { id, label } = items[index];
-//     return (
-//       <Draggable draggableId={id} index={index} key={id}>
-//         {(provided, snapshot) => {
-//           const { innerRef, dragHandleProps, draggableProps } = provided;
-//           return (
-//             <div ref={innerRef} {...draggableProps} {...dragHandleProps}>
-//               <Row xs="12" className="pr-2 pl-2 pt-1 m-0">
-//                 <Col xs="11">
-//                   <div style={{ width: '100%' }}>
-//                     {truncateText ? (
-//                       <Truncate lines={1} children={label} ellipsis="…" />
-//                     ) : (
-//                       <p>{label}</p>
-//                     )}
-//                   </div>
-//                 </Col>
-//                 <Col xs="1">
-//                   <Button
-//                     close
-//                     className="float-right"
-//                     onClick={() => removeItemsHandler(id)}
-//                   />
-//                 </Col>
-//               </Row>
-//             </div>
-//           );
-//         }}
-//       </Draggable>
-//     );
-//   };
-//   return (
-//     <ListWrapper height={height}>
-//       <Droppable droppableId="selectedItems">
-//         {provided => {
-//           const { innerRef } = provided;
-//           return (
-//             <div ref={innerRef} style={{ height, overflow: 'auto' }}>
-//               {items.map((item, index) => {
-//                 return <RowRenderer key={index} item={item} index={index} />;
-//               })}
-//               {provided.placeholder}
-//             </div>
-//           );
-//         }}
-//       </Droppable>
-//     </ListWrapper>
-//   );
-// };
