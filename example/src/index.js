@@ -11,5 +11,3 @@ const renderer = () => {
 
 if (module.hot) module.hot.accept(Component => renderer());
 renderer();
-
-export { CheckboxSelectable, CheckboxSelectableV2 };
