@@ -47,7 +47,10 @@ const DestinationList = ({
       {(provided, snapshot) => {
         const { innerRef } = provided;
         return (
-          <div ref={innerRef} style={{ height, overflow: 'auto' }}>
+          <div
+            ref={innerRef}
+            style={{ height, overflow: 'auto', flex: 'unset' }}
+          >
             {items.map((item, index) => (
               <RowRenderer key={index} index={index} />
             ))}

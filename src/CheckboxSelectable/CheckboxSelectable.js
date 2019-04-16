@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Row, Col } from 'reactstrap';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { HeaderPanel, SourceList, DestinationList } from '../../src/Components';
+import { HeaderPanel, SourceList, DestinationList } from '../Components';
 
 export default class CheckboxSelectable extends Component {
   _isMounted = true;
