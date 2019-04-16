@@ -5,8 +5,6 @@ import { Row, Col } from 'reactstrap';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { HeaderPanel, SourceList, DestinationList } from 'Components';
 
-import 'bootstrap/dist/css/bootstrap.css';
-
 export default class CheckboxSelectable extends Component {
   _isMounted = true;
 
