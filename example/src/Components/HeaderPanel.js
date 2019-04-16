@@ -40,7 +40,7 @@ const HeaderPanel = ({
       <Col xs="6" className="border pt-4 pb-4 m-0">
         <InputGroup className="d-flex align-items-center">
           <Col className="text-left">{selectedCount} selected</Col>
-          <Col className="text-right">
+          <Col className="text-right p-0">
             <ButtonComponent
               className="primary-btn-style"
               onClick={onClearClicked}
