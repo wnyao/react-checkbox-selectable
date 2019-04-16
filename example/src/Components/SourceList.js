@@ -17,7 +17,7 @@ const SourceList = ({
     const identifier = name + index;
     return (
       <div className="pr-2 pl-2 pt-1">
-        <FormGroup className="pt-1 d-flex" check>
+        <FormGroup className="pt-1 d-flex">
           <CustomInput
             type="checkbox"
             id={id}
