@@ -15,7 +15,7 @@ import Truncate from 'react-truncate';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 // TEST
-import { SourceList, DestinationList } from 'Components';
+import { SourceList, DestinationList } from '../Components';
 
 export default class CheckboxSelectableV2 extends Component {
   _isMounted = true;

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
 import { Row, Col } from 'reactstrap';
-import CheckboxSelectable from 'CheckboxSelectable';
-import CheckboxSelectableV2 from 'CheckboxSelectableV2';
+import CheckboxSelectable from './CheckboxSelectable';
+import CheckboxSelectableV2 from './CheckboxSelectableV2';
 
-import { getDataArray } from 'Utilities/util'; // Mock data
+import { getDataArray } from './Utilities/util'; // Mock data
 
 export default class SideBySideExamples extends Component {
   _isMounted = true;
