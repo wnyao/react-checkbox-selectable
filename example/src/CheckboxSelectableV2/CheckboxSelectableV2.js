@@ -26,7 +26,7 @@ export default class CheckboxSelectableV2 extends Component {
     height: PropTypes.number, // default to 300
     groupName: PropTypes.string, //is required when two or more multi select are applied
     onChange: PropTypes.func.isRequired,
-    customButton: PropTypes.node,
+    customButton: PropTypes.element,
   };
 
   state = {
