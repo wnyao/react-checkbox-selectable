@@ -14,8 +14,6 @@ import {
 import Truncate from 'react-truncate';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import 'bootstrap/dist/css/bootstrap.css';
-
 // TEST
 import { SourceList, DestinationList } from '../Components';
 
