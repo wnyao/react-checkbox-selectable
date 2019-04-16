@@ -1,11 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Row, Col } from 'reactstrap';
-import { DragDropContext } from 'react-beautiful-dnd';
+import {
+  FormGroup,
+  InputGroup,
+  CustomInput,
+  Input,
+  Row,
+  Col,
+  Button,
+  Tooltip,
+} from 'reactstrap';
+import Truncate from 'react-truncate';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+// TEST
 import { HeaderPanel, SourceList, DestinationList } from '../Components';
 
-export default class CheckboxSelectable extends Component {
+export default class CheckboxSelectableV2 extends Component {
   _isMounted = true;
 
   static propTypes = {
@@ -14,6 +26,7 @@ export default class CheckboxSelectable extends Component {
     height: PropTypes.number, // default to 300
     groupName: PropTypes.string, //is required when two or more multi select are applied
     onChange: PropTypes.func.isRequired,
+    customButton: PropTypes.element,
   };
 
   state = {
@@ -36,10 +49,7 @@ export default class CheckboxSelectable extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { items, selectedItems } = this.props;
-    const evaluation =
-      prevProps.items !== items || prevProps.selectedItems !== selectedItems;
-    if (evaluation) this.componentDidMount();
+    if (prevProps.items !== this.props.items) this.componentDidMount();
   }
 
   componentWillUnmount() {
@@ -61,8 +71,10 @@ export default class CheckboxSelectable extends Component {
   setItemSelected = itemsSelected => {
     const { originalItems } = this.state;
     this.setCheckedOnOriginalItems(originalItems, itemsSelected);
+    // Clear checked prop and send back via onChange
     itemsSelected = this.clearChecked(itemsSelected);
     this.props.onChange(itemsSelected);
+    // Set state
     this.setState({
       selectedItems: itemsSelected,
       selectedCount: itemsSelected.length,
@@ -88,6 +100,28 @@ export default class CheckboxSelectable extends Component {
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
     return result;
+  };
+
+  move = (
+    sourceList,
+    destinationList,
+    droppableSource,
+    droppabledDestination
+  ) => {
+    let sourceClone = Array.from(sourceList);
+    let desClone = Array.from(destinationList);
+
+    // Move item, remove from source, and add to destination
+    const [removed] = Array.from(sourceClone).splice(droppableSource.index, 1);
+
+    if (!desClone.find(item => item.id === removed.id))
+      desClone.splice(droppabledDestination.index, 0, removed);
+
+    // Set state
+    let state = {};
+    state[droppableSource.droppableId] = sourceClone;
+    state[droppabledDestination.droppableId] = desClone;
+    return state;
   };
 
   // EVENT HANDLER
@@ -173,33 +207,58 @@ export default class CheckboxSelectable extends Component {
   };
 
   onClearClicked = () => {
-    const { originalItems } = this.state;
-    this.setCheckedOnOriginalItems(originalItems, []);
+    const { items } = this.props;
+    const originalItems = this.setCheckedOnOriginalItems(items, []);
     this.props.onChange([]);
     this.setState({
+      originalItems,
       selectedItems: [],
       selectedCount: 0,
     });
   };
 
-  onDragEnd = result => {
-    // If drop outsite of droppable
-    if (!result.destination) return;
-    // Reorder list
-    const items = this.reorder(
-      this.state.selectedItems,
-      result.source.index,
-      result.destination.index
+  onDragEnd = event => {
+    const { source, destination } = event;
+    if (!destination) return;
+    if (source.droppableId === destination.droppableId) {
+      // Reorder on single list
+      const items = this.reorder(
+        this.state[source.droppableId],
+        source.index,
+        destination.index
+      );
+
+      //TODO: onChange return item list
+
+      // Set state
+      let state = {};
+      state[source.droppableId] = items;
+      this.setState(state);
+      return;
+    }
+    // Move from source to destination list
+    const result = this.move(
+      this.state[source.droppableId],
+      this.state[destination.droppableId],
+      source,
+      destination
     );
+
+    //TODO: onChange return item list
+
     // Set state
-    this.props.onChange(items);
-    this.setState({
-      selectedItems: items,
-    });
+    let newState = {};
+    newState[source.droppableId] = result[source.droppableId];
+    newState[destination.droppableId] = result[destination.droppableId];
+    newState.originalItems = this.setCheckedOnOriginalItems(
+      newState.originalItems,
+      newState.selectedItems
+    );
+    this.setState(newState);
   };
 
   render() {
-    const { height = 300, name, truncateText } = this.props;
+    const { height = 300, groupName, truncateText, customButton } = this.props;
     const {
       originalItems,
       selectedItems,
@@ -216,6 +275,7 @@ export default class CheckboxSelectable extends Component {
           onSelectAllClicked={this.onSelectAllClicked}
           onSearchInputChange={this.onSearchInputChange}
           onSearchButtonClicked={this.onSearchButtonClicked}
+          customButton={customButton}
         />
         {/* Body */}
         <Row xs="12" className="m-0">
@@ -225,7 +285,8 @@ export default class CheckboxSelectable extends Component {
                 items={originalItems}
                 height={height}
                 onChange={this.handleCheckboxChange}
-                name={name}
+                onDragEnd={this.onDragEnd}
+                groupName={groupName}
                 truncateText={truncateText}
               />
             </ListWrapper>
@@ -233,6 +294,7 @@ export default class CheckboxSelectable extends Component {
               <DestinationList
                 items={selectedItems}
                 height={height}
+                onDragEnd={this.onDragEnd}
                 removeItemsHandler={this.removeItemsHandler}
                 truncateText={truncateText}
               />
@@ -242,6 +304,47 @@ export default class CheckboxSelectable extends Component {
       </div>
     );
   }
+}
+
+export class TooltipComponent extends Component {
+  static defaultProps = {
+    id: 0,
+    label: 'Label not found',
+    children: null,
+  };
+  state = {
+    isTooltipOpen: false,
+  };
+  onTooltipOpen = e => {
+    const { isTooltipOpen } = this.state;
+    this.setState({
+      isTooltipOpen: e && !isTooltipOpen,
+    });
+  };
+  render = () => {
+    const { isTooltipOpen } = this.state;
+    const { id, label, children } = this.props;
+    return (
+      <div>
+        {children}
+        <Tooltip
+          innerClassName="tooltip-wrapper"
+          placement="auto"
+          boundariesElement={'window'}
+          autohide={false}
+          target={id}
+          isOpen={isTooltipOpen}
+          toggle={e => this.onTooltipOpen(e)}
+        >
+          <div
+          // style={{ width: '500px' }}
+          >
+            {label}
+          </div>
+        </Tooltip>
+      </div>
+    );
+  };
 }
 
 const ListWrapper = ({ height, children }) => (
