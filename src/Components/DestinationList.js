@@ -19,7 +19,7 @@ const DestinationList = ({
           return (
             <div ref={innerRef} {...draggableProps} {...dragHandleProps}>
               <Row xs="12" className="pr-2 pl-2 pt-1 m-0">
-                <Col xs="11">
+                <Col xs="11" className="p-0">
                   <div style={{ width: '100%' }}>
                     {truncateText ? (
                       <Truncate lines={1} children={label} ellipsis="…" />
@@ -28,7 +28,7 @@ const DestinationList = ({
                     )}
                   </div>
                 </Col>
-                <Col xs="1">
+                <Col xs="1" className="p-0">
                   <Button
                     close
                     className="float-right"

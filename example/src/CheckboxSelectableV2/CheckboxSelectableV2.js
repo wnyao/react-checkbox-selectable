@@ -278,11 +278,7 @@ export default class CheckboxSelectableV2 extends Component {
           customButton={customButton}
         />
         {/* Body */}
-        <Row
-          xs="12"
-          className="m-0"
-          style={{ flex: 'unset', flexWrap: 'unset' }}
-        >
+        <Row xs="12" className="m-0">
           <DragDropContext onDragEnd={this.onDragEnd}>
             <ListWrapper height={height}>
               <SourceList
