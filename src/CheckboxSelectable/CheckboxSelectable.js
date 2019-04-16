@@ -282,27 +282,25 @@ export default class CheckboxSelectableV2 extends Component {
         />
         {/* Body */}
         <Row xs="12" className="m-0">
-          <DragDropContext onDragEnd={this.onDragEnd}>
-            <ListWrapper height={height}>
-              <SourceList
-                items={originalItems}
-                height={height}
-                onChange={this.handleCheckboxChange}
-                onDragEnd={this.onDragEnd}
-                groupName={groupName}
-                truncateText={truncateText}
-              />
-            </ListWrapper>
-            <ListWrapper height={height}>
-              <DestinationList
-                items={selectedItems}
-                height={height}
-                onDragEnd={this.onDragEnd}
-                removeItemsHandler={this.removeItemsHandler}
-                truncateText={truncateText}
-              />
-            </ListWrapper>
-          </DragDropContext>
+          <ListWrapper height={height}>
+            <SourceList
+              items={originalItems}
+              height={height}
+              onChange={this.handleCheckboxChange}
+              onDragEnd={this.onDragEnd}
+              groupName={groupName}
+              truncateText={truncateText}
+            />
+          </ListWrapper>
+          <ListWrapper height={height}>
+            <DestinationList
+              items={selectedItems}
+              height={height}
+              onDragEnd={this.onDragEnd}
+              removeItemsHandler={this.removeItemsHandler}
+              truncateText={truncateText}
+            />
+          </ListWrapper>
         </Row>
       </div>
     );

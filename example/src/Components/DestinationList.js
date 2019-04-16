@@ -2,13 +2,14 @@ import React from 'react';
 
 import Truncate from 'react-truncate';
 import { Row, Col, Button } from 'reactstrap';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const DestinationList = ({
   items,
   removeItemsHandler,
   height = 300,
   truncateText,
+  onDragEnd,
 }) => {
   const RowRenderer = ({ index }) => {
     const { id, label } = items[index];
@@ -18,7 +19,7 @@ const DestinationList = ({
           const { innerRef, dragHandleProps, draggableProps } = provided;
           return (
             <div ref={innerRef} {...draggableProps} {...dragHandleProps}>
-              <Row xs="12" className="pr-2 pl-2 pt-1 m-0">
+              <Row xs="12" className="p-2 m-0">
                 <Col xs="11" className="p-0">
                   <div style={{ width: '100%' }}>
                     {truncateText ? (
@@ -43,19 +44,21 @@ const DestinationList = ({
     );
   };
   return (
-    <Droppable droppableId="selectedItems">
-      {(provided, snapshot) => {
-        const { innerRef } = provided;
-        return (
-          <div ref={innerRef} style={{ height, overflow: 'auto' }}>
-            {items.map((item, index) => (
-              <RowRenderer key={index} index={index} />
-            ))}
-            {provided.placeholder}
-          </div>
-        );
-      }}
-    </Droppable>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="selectedItems">
+        {(provided, snapshot) => {
+          const { innerRef } = provided;
+          return (
+            <div ref={innerRef} style={{ height, overflow: 'auto' }}>
+              {items.map((item, index) => (
+                <RowRenderer key={index} index={index} />
+              ))}
+              {provided.placeholder}
+            </div>
+          );
+        }}
+      </Droppable>
+    </DragDropContext>
   );
 };
 
