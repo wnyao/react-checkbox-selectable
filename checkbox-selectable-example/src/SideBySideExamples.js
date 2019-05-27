@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import CheckboxSelectable from './CheckboxSelectable';
 
 import { getDataArray } from './Utilities/util'; // Mock data
@@ -17,20 +17,21 @@ export default class SideBySideExamples extends Component {
   render() {
     return (
       <div>
-        <Row>
-          <Col>
-            <h5 className="text-bold pt-4">CheckboxSelectable</h5>
-            <CheckboxSelectable
-              name="text"
-              items={this.state.data}
-              selectedItems={[]}
-              onChange={selectedItems => {}}
-            />
-          </Col>
-        </Row>
+        <h5 className="text-bold pt-4">CheckboxSelectable</h5>
+        <CheckboxSelectable
+          name="text"
+          items={this.state.data}
+          selectedItems={[]}
+          onChange={selectedItems => {}}
+          customButton={CustomButton}
+        />
       </div>
     );
   }
+}
+
+function CustomButton(props) {
+  return <Button color="info" onClick={() => {}} {...props} />;
 }
 
 /**

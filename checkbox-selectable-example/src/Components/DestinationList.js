@@ -13,13 +13,14 @@ const DestinationList = ({
 }) => {
   const RowRenderer = ({ index }) => {
     const { id, label } = items[index];
+
     return (
       <Draggable draggableId={id} index={index} key={id}>
         {(provided, snapshot) => {
           const { innerRef, dragHandleProps, draggableProps } = provided;
           return (
             <div ref={innerRef} {...draggableProps} {...dragHandleProps}>
-              <Row xs="12" className="p-2 m-0">
+              <Row xs="12" className="px-4 py-2 m-0">
                 <Col xs="11" className="p-0">
                   <div style={{ width: '100%' }}>
                     {truncateText ? (
@@ -43,6 +44,7 @@ const DestinationList = ({
       </Draggable>
     );
   };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="selectedItems">

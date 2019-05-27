@@ -16,8 +16,8 @@ const SourceList = ({
     // TOOLTIP COMPONENT USES UNIQUE IDENTIFIER TO DETERMINE WHAT TOOLTIP TO SHOW
     const identifier = name + index;
     return (
-      <div className="pr-2 pl-2 pt-1">
-        <FormGroup className="pt-1 d-flex">
+      <div className="px-4 py-1">
+        <FormGroup className="pt-1 m-0 d-flex">
           <CustomInput
             type="checkbox"
             id={id}
@@ -37,6 +37,7 @@ const SourceList = ({
       </div>
     );
   };
+
   return (
     <div style={{ height, overflow: 'auto' }}>
       {items.map((item, index) => (

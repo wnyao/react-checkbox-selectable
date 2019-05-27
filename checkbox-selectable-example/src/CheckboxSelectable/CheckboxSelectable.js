@@ -29,6 +29,7 @@ export default class CheckboxSelectableV2 extends Component {
     customButton: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
+      PropTypes.func,
     ]).isRequired,
   };
 
@@ -130,9 +131,7 @@ export default class CheckboxSelectableV2 extends Component {
   // EVENT HANDLER
   removeItemsHandler = id => {
     const { selectedItems } = this.state;
-    const itemsSelected = selectedItems
-      .map(item => (item.id !== id ? item : undefined))
-      .filter(x => x);
+    const itemsSelected = selectedItems.filter(item => item.id !== id);
     this.setItemSelected(itemsSelected);
   };
 
@@ -268,6 +267,7 @@ export default class CheckboxSelectableV2 extends Component {
       selectedCount,
       searchValue,
     } = this.state;
+
     return (
       <div className="border">
         {/* Header */}
