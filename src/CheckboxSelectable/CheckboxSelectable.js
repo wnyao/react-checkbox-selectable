@@ -1,20 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  FormGroup,
-  InputGroup,
-  CustomInput,
-  Input,
-  Row,
-  Col,
-  Button,
-  Tooltip,
-} from 'reactstrap';
-import Truncate from 'react-truncate';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-
-// TEST
+import { Row, Col, Tooltip } from 'reactstrap';
 import { HeaderPanel, SourceList, DestinationList } from '../Components';
 
 export default class CheckboxSelectableV2 extends Component {
@@ -29,6 +16,7 @@ export default class CheckboxSelectableV2 extends Component {
     customButton: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
+      PropTypes.func,
     ]).isRequired,
   };
 
@@ -130,9 +118,7 @@ export default class CheckboxSelectableV2 extends Component {
   // EVENT HANDLER
   removeItemsHandler = id => {
     const { selectedItems } = this.state;
-    const itemsSelected = selectedItems
-      .map(item => (item.id !== id ? item : undefined))
-      .filter(x => x);
+    const itemsSelected = selectedItems.filter(item => item.id !== id);
     this.setItemSelected(itemsSelected);
   };
 
@@ -268,6 +254,7 @@ export default class CheckboxSelectableV2 extends Component {
       selectedCount,
       searchValue,
     } = this.state;
+
     return (
       <div className="border">
         {/* Header */}

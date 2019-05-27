@@ -24,10 +24,11 @@ const HeaderPanel = ({
             onChange={onSearchInputChange}
           />
           <ButtonComponent
-            className="primary-btn-style mr-1 d-flex"
+            className="primary-btn-style mr-2 d-flex"
             onClick={onSearchButtonClicked}
           >
-            <i className="material-icons align-text-bottom">search</i>
+            <i className="material-icons">search</i>
+            Search
           </ButtonComponent>
           <ButtonComponent
             className="primary-btn-style"
