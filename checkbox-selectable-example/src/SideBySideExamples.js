@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Row, Col, Button } from 'reactstrap';
+import { Button } from 'reactstrap';
 import CheckboxSelectable from './CheckboxSelectable';
 
 import { getDataArray } from './Utilities/util'; // Mock data

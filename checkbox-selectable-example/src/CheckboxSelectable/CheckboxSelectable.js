@@ -1,20 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  FormGroup,
-  InputGroup,
-  CustomInput,
-  Input,
-  Row,
-  Col,
-  Button,
-  Tooltip,
-} from 'reactstrap';
-import Truncate from 'react-truncate';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-
-// TEST
+import { Row, Col, Tooltip } from 'reactstrap';
 import { HeaderPanel, SourceList, DestinationList } from '../Components';
 
 export default class CheckboxSelectableV2 extends Component {
