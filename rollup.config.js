@@ -30,7 +30,7 @@ export default {
     url(),
     svgr(),
     babel({
-      exclude: "node_modules/**",
+      exclude: ["node_modules/**", "checkbox-selectable-example/**"],
       plugins: ["external-helpers"]
     }),
     resolve(),
