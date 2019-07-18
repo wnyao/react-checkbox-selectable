@@ -30,8 +30,8 @@ export default {
     url(),
     svgr(),
     babel({
-      exclude: ["node_modules/**", "checkbox-selectable-example/**"],
-      plugins: ["external-helpers"]
+      runtimeHelpers: true,
+      exclude: ["node_modules/**", "checkbox-selectable-example/**"]
     }),
     resolve(),
     commonjs({
