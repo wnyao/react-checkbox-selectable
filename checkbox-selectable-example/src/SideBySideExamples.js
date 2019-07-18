@@ -16,7 +16,7 @@ export default class SideBySideExamples extends Component {
   }
   render() {
     return (
-      <div>
+      <div style={{ width: '600px' }}>
         <h5 className="text-bold pt-4">CheckboxSelectable</h5>
         <CheckboxSelectable
           name="text"

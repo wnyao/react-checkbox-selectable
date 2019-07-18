@@ -21,16 +21,17 @@ export default class CheckboxSelectableV2 extends Component {
   };
 
   state = {
-    selectedCount: 0,
-    searchValue: '',
     originalItems: [],
     selectedItems: [],
     loading: false,
+    searchValue: '',
+    selectedCount: 0,
   };
 
   componentDidMount() {
-    let { items, selectedItems } = this.props;
+    const { items, selectedItems } = this.props;
     const originalItems = this.setCheckedOnOriginalItems(items, selectedItems);
+
     if (this._isMounted)
       this.setState({
         originalItems,
@@ -65,7 +66,6 @@ export default class CheckboxSelectableV2 extends Component {
     // Clear checked prop and send back via onChange
     itemsSelected = this.clearChecked(itemsSelected);
     this.props.onChange(itemsSelected);
-    // Set state
     this.setState({
       selectedItems: itemsSelected,
       selectedCount: itemsSelected.length,
@@ -150,39 +150,37 @@ export default class CheckboxSelectableV2 extends Component {
 
   onSearchInputChange = e => {
     const { value } = e.target;
-    this.setState({
-      searchValue: value,
-    });
-    // Set back to original items list
-    if (value.length === 0) {
-      const { items } = this.props;
-      this.setState({
-        originalItems: items,
-      });
-    }
+    this.setState(
+      {
+        searchValue: value,
+      },
+      this.onSearchButtonClicked
+    );
   };
 
   onSearchButtonClicked = () => {
     const { searchValue, originalItems } = this.state;
-    let returnItems;
+    const { items } = this.props;
+
     if (searchValue.length === 0) {
-      returnItems = originalItems;
-    } else {
-      // Search result
-      returnItems = originalItems
-        .map(item => {
-          const { label } = item;
-          return (
-            label
-              .toString()
-              .toLowerCase()
-              .includes(searchValue.toLowerCase()) && item
-          );
-        })
-        .filter(x => x);
+      this.setState({
+        originalItems: items,
+      });
+      return;
     }
+
+    const foundItems = originalItems
+      .map(item => {
+        const hasFound = item.label
+          .toString()
+          .toLowerCase()
+          .includes(searchValue.toLowerCase());
+        return hasFound && item;
+      })
+      .filter(x => x);
+
     this.setState({
-      originalItems: returnItems,
+      originalItems: foundItems,
     });
   };
 
@@ -264,7 +262,6 @@ export default class CheckboxSelectableV2 extends Component {
           onClearClicked={this.onClearClicked}
           onSelectAllClicked={this.onSelectAllClicked}
           onSearchInputChange={this.onSearchInputChange}
-          onSearchButtonClicked={this.onSearchButtonClicked}
           customButton={customButton}
         />
         {/* Body */}
