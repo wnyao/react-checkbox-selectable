@@ -149,10 +149,9 @@ export default class CheckboxSelectableV2 extends Component {
   };
 
   onSearchInputChange = e => {
-    const { value } = e.target;
     this.setState(
       {
-        searchValue: value,
+        searchValue: e.target.value,
       },
       this.onSearchButtonClicked
     );
@@ -169,15 +168,13 @@ export default class CheckboxSelectableV2 extends Component {
       return;
     }
 
-    const foundItems = originalItems
-      .map(item => {
-        const hasFound = item.label
-          .toString()
-          .toLowerCase()
-          .includes(searchValue.toLowerCase());
-        return hasFound && item;
-      })
-      .filter(x => x);
+    const foundItems = items.filter(item => {
+      const hasFound = item.label
+        .toString()
+        .toLowerCase()
+        .includes(searchValue.toLowerCase());
+      return hasFound && item;
+    });
 
     this.setState({
       originalItems: foundItems,
@@ -194,9 +191,10 @@ export default class CheckboxSelectableV2 extends Component {
   };
 
   onClearClicked = () => {
-    const { items } = this.props;
+    const { items, onChange } = this.props;
     const originalItems = this.setCheckedOnOriginalItems(items, []);
-    this.props.onChange([]);
+
+    onChange([]);
     this.setState({
       originalItems,
       selectedItems: [],
@@ -292,20 +290,23 @@ export default class CheckboxSelectableV2 extends Component {
 }
 
 export class TooltipComponent extends Component {
+  state = {
+    isTooltipOpen: false,
+  };
+
   static defaultProps = {
     id: 0,
     label: 'Label not found',
     children: null,
   };
-  state = {
-    isTooltipOpen: false,
-  };
+
   onTooltipOpen = e => {
     const { isTooltipOpen } = this.state;
     this.setState({
       isTooltipOpen: e && !isTooltipOpen,
     });
   };
+
   render = () => {
     const { isTooltipOpen } = this.state;
     const { id, label, children } = this.props;

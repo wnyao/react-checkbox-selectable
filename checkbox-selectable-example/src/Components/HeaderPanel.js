@@ -18,10 +18,10 @@ const HeaderPanel = props => {
 
   return (
     <Row xs="12" className="m-0">
-      <Col xs="6" className="border pt-4 pb-4 m-0">
+      <Col xs="6" className="border py-4">
         <SourceHeader {...props} />
       </Col>
-      <Col xs="6" className="border pt-4 pb-4 m-0">
+      <Col xs="6" className="border py-4">
         <DestinationHeader {...props} />
       </Col>
     </Row>
@@ -34,12 +34,11 @@ const SourceHeader = props => {
     onSearchInputChange,
     selectedCount,
     searchValue,
-    // ButtonComponent,
   } = props;
 
   return (
     <Row>
-      <Col xs="6" lg="6">
+      <Col xs="7" className="pr-0">
         <Input
           type="text"
           placeholder="Search"
@@ -50,9 +49,8 @@ const SourceHeader = props => {
         />
       </Col>
       <Col
-        xs="6"
-        lg="6"
-        className="justify-content-end d-flex align-items-center"
+        xs="5"
+        className="justify-content-end d-flex align-items-center pl-0"
       >
         <ButtonComponent
           className="primary-btn-style"
@@ -70,7 +68,7 @@ const DestinationHeader = props => {
 
   return (
     <Row>
-      <Col xs="6" lg="6" className="d-flex align-items-center">
+      <Col xs="6" className="d-flex align-items-center">
         <Input
           disabled
           type="text"
@@ -80,11 +78,7 @@ const DestinationHeader = props => {
           value={selectedCount + ' selected'}
         />
       </Col>
-      <Col
-        xs="6"
-        lg="6"
-        className="justify-content-end d-flex align-items-center"
-      >
+      <Col xs="6" className="justify-content-end d-flex align-items-center">
         <ButtonComponent className="primary-btn-style" onClick={onClearClicked}>
           Clear
         </ButtonComponent>
