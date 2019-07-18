@@ -1,19 +1,10 @@
 import React from 'react';
-import { InputGroup, Input, Row, Col, Button } from 'reactstrap';
+import { Input, Row, Col, Button } from 'reactstrap';
 
 let ButtonComponent = Button;
 
 const HeaderPanel = props => {
-  const {
-    onClearClicked,
-    onSelectAllClicked,
-    onSearchInputChange,
-    onSearchButtonClicked,
-    selectedCount,
-    searchValue,
-    customButton,
-  } = props;
-
+  const { customButton } = props;
   ButtonComponent = customButton || Button;
 
   return (
@@ -29,27 +20,22 @@ const HeaderPanel = props => {
 };
 
 const SourceHeader = props => {
-  const {
-    onSelectAllClicked,
-    onSearchInputChange,
-    selectedCount,
-    searchValue,
-  } = props;
+  const { onSearchButtonClicked, onSelectAllClicked } = props;
 
   return (
     <Row>
-      <Col xs="7" className="pr-0">
+      <Col xs="12" lg="7" className="">
         <Input
           type="text"
           placeholder="Search"
-          className="border-0 my-1 pl-0"
+          className="border-0 my-1"
           style={{ zIndex: 0 }}
-          value={searchValue}
-          onChange={onSearchInputChange}
+          onChange={e => onSearchButtonClicked(e.target.value)}
         />
       </Col>
       <Col
-        xs="5"
+        xs="12"
+        lg="5"
         className="justify-content-end d-flex align-items-center pl-0"
       >
         <ButtonComponent

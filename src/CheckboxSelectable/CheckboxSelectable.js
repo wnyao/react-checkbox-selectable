@@ -5,8 +5,6 @@ import { Row, Col, Tooltip } from 'reactstrap';
 import { HeaderPanel, SourceList, DestinationList } from '../Components';
 
 export default class CheckboxSelectableV2 extends Component {
-  _isMounted = true;
-
   static propTypes = {
     items: PropTypes.array.isRequired,
     selectedItems: PropTypes.array.isRequired,
@@ -24,7 +22,6 @@ export default class CheckboxSelectableV2 extends Component {
     originalItems: [],
     selectedItems: [],
     loading: false,
-    searchValue: '',
     selectedCount: 0,
   };
 
@@ -32,20 +29,15 @@ export default class CheckboxSelectableV2 extends Component {
     const { items, selectedItems } = this.props;
     const originalItems = this.setCheckedOnOriginalItems(items, selectedItems);
 
-    if (this._isMounted)
-      this.setState({
-        originalItems,
-        selectedItems,
-        selectedCount: selectedItems.length,
-      });
+    this.setState({
+      originalItems,
+      selectedItems,
+      selectedCount: selectedItems.length,
+    });
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.items !== this.props.items) this.componentDidMount();
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
   }
 
   // UTIL
@@ -148,20 +140,10 @@ export default class CheckboxSelectableV2 extends Component {
     return itemsSelected;
   };
 
-  onSearchInputChange = e => {
-    this.setState(
-      {
-        searchValue: e.target.value,
-      },
-      this.onSearchButtonClicked
-    );
-  };
-
-  onSearchButtonClicked = () => {
-    const { searchValue, originalItems } = this.state;
+  onSearchButtonClicked = keyword => {
     const { items } = this.props;
 
-    if (searchValue.length === 0) {
+    if (keyword.length === 0) {
       this.setState({
         originalItems: items,
       });
@@ -172,7 +154,7 @@ export default class CheckboxSelectableV2 extends Component {
       const hasFound = item.label
         .toString()
         .toLowerCase()
-        .includes(searchValue.toLowerCase());
+        .includes(keyword.toLowerCase());
       return hasFound && item;
     });
 
@@ -244,22 +226,16 @@ export default class CheckboxSelectableV2 extends Component {
 
   render() {
     const { height = 300, groupName, truncateText, customButton } = this.props;
-    const {
-      originalItems,
-      selectedItems,
-      selectedCount,
-      searchValue,
-    } = this.state;
+    const { originalItems, selectedItems, selectedCount } = this.state;
 
     return (
       <div className="border">
         {/* Header */}
         <HeaderPanel
-          searchValue={searchValue}
           selectedCount={selectedCount}
           onClearClicked={this.onClearClicked}
           onSelectAllClicked={this.onSelectAllClicked}
-          onSearchInputChange={this.onSearchInputChange}
+          onSearchButtonClicked={this.onSearchButtonClicked}
           customButton={customButton}
         />
         {/* Body */}

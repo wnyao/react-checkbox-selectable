@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 
 import { Button } from 'reactstrap';
 import CheckboxSelectable from './CheckboxSelectable';
@@ -6,23 +6,27 @@ import CheckboxSelectable from './CheckboxSelectable';
 import { getDataArray } from './Utilities/util'; // Mock data
 
 export default class SideBySideExamples extends Component {
-  _isMounted = true;
   state = {
     data: [],
+    selected: [],
   };
+
   componentDidMount() {
-    const data = getDataArray(20);
+    const data = getDataArray(4000);
     this.setState({ data });
   }
+
   render() {
+    const { selected, data } = this.state;
+
     return (
-      <div style={{ width: '600px' }}>
+      <div>
         <h5 className="text-bold pt-4">CheckboxSelectable</h5>
         <CheckboxSelectable
           name="text"
-          items={this.state.data}
-          selectedItems={[]}
-          onChange={selectedItems => {}}
+          items={data}
+          selectedItems={selected}
+          onChange={selected => this.setState({ selected })}
           customButton={CustomButton}
         />
       </div>
