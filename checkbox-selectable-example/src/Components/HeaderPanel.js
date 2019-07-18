@@ -1,18 +1,10 @@
 import React from 'react';
-import { InputGroup, Input, Row, Col, Button } from 'reactstrap';
+import { Input, Row, Col, Button } from 'reactstrap';
 
 let ButtonComponent = Button;
 
 const HeaderPanel = props => {
-  const {
-    onClearClicked,
-    onSelectAllClicked,
-    onSearchInputChange,
-    onSearchButtonClicked,
-    selectedCount,
-    searchValue,
-    customButton,
-  } = props;
+  const { customButton } = props;
 
   ButtonComponent = customButton || Button;
 
@@ -29,12 +21,7 @@ const HeaderPanel = props => {
 };
 
 const SourceHeader = props => {
-  const {
-    onSelectAllClicked,
-    onSearchInputChange,
-    selectedCount,
-    searchValue,
-  } = props;
+  const { onSelectAllClicked, onSearchInputChange, searchValue } = props;
 
   return (
     <Row>

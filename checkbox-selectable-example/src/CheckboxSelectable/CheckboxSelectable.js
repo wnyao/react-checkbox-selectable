@@ -158,7 +158,7 @@ export default class CheckboxSelectableV2 extends Component {
   };
 
   onSearchButtonClicked = () => {
-    const { searchValue, originalItems } = this.state;
+    const { searchValue } = this.state;
     const { items } = this.props;
 
     if (searchValue.length === 0) {
